@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record id="view_purchase_requisition_search" model="ir.ui.view">
+        <field name="name">purchase.requisition.search</field>
+        <field name="model">purchase.requisition</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Requisition Search">
+                <filter name="rfq_accepted" string="RFQ Accepted" domain="[('stage', '=', 'rfq_created')]" />
+            </search>
+        </field>
+    </record>
     <!-- Action for Purchase Requisition -->
     <record id="action_purchase_requisition" model="ir.actions.act_window">
         <field name="name">Purchase Requisition</field>
         <field name="res_model">purchase.requisition</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="Purchase_Requisition.view_purchase_requisition_search"/>
+        <field name="context">{'search_default_rfq_accepted': 1}</field>
     </record>
 
     <record id="view_purchase_requisition_form" model="ir.ui.view">
@@ -64,6 +75,7 @@
                 <field name="product_summary" readonly="1"/>
                 <field name="total_quantity" readonly="1"/>
                 <field name="total_onhand_qty" readonly="1"/>
+                <field name="stage" readonly="1"/>
             </tree>
         </field>
     </record>

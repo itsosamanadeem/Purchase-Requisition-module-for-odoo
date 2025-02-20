@@ -4,7 +4,7 @@
     'author': 'Osama Nadeem',
     'sequence': '-100',
     'license': 'LGPL-3',
-    'depends': ['base', 'sale', 'product','purchase','stock','hr'],
+    'depends': ['base', 'sale', 'product','purchase','stock','hr',],
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
