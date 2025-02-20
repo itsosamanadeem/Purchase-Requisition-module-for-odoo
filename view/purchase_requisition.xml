@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action for Purchase Requisition -->
+    <record id="action_purchase_requisition" model="ir.actions.act_window">
+        <field name="name">Purchase Requisition</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_purchase_requisition_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.form</field>
+        <field name="model">purchase.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Requisition">
+                <header>
+                    <field name="stage" widget="statusbar"></field>
+                    <button string="Confirm" name="action_submit" type="object" class="oe_highlight"/>
+                    <button string="Approved" name="action_approve" type="object" class="btn-primary" groups="base.group_system"/>
+                    <button string="Create PO" name="action_create_po" type="object" class="oe_highlight" groups="base.group_system"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="vendor_id" />
+                            <field name="employee_name" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="department_id" readonly="1"/>
+                            <field name="requisition_date"/>
+                            <field name="requisition_deadline"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Requisition Line">
+                            <field name="requisition_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="onhand_qty" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- List (Tree) View for Purchase Requisition -->
+    <record id="view_purchase_requisition_tree" model="ir.ui.view">
+        <field name="name">purchase.requisition.tree</field>
+        <field name="model">purchase.requisition</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Requisition">
+                <field name="employee_name" readonly="1"/>
+                <field name="requisition_date"/>
+                <field name="requisition_deadline"/>
+                <field name="product_summary" readonly="1"/>
+                <field name="total_quantity" readonly="1"/>
+                <field name="total_onhand_qty" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- New Menu Item Under 'Purchase Orders' in Purchase Module -->
+    <menuitem id="menu_purchase_requisition"
+              name="Purchase Requisitions"
+              parent="purchase.menu_purchase_root"
+              action="action_purchase_requisition"
+              sequence="15"/>
+</odoo>
