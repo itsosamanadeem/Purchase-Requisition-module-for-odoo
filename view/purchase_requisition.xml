@@ -27,7 +27,7 @@
                     <field name="stage" widget="statusbar"></field>
                     <button string="Confirm" name="action_submit" type="object" class="oe_highlight"/>
                     <button string="Approved" name="action_approve" type="object" class="btn-primary" groups="base.group_system"/>
-                    <button string="Create PO" name="action_create_po" type="object" class="oe_highlight" groups="base.group_system"/>
+                    <button string="Create PRQ" name="action_create_po" type="object" class="oe_highlight" groups="base.group_system"/>
                     <button string="Cancel" class="btn-secondary" special="cancel" />
                 </header>
                 <sheet>
@@ -45,11 +45,11 @@
                     </group>
                     <notebook>
                         <page string="Requisition Line">
-                            <field name="requisition_line_ids">
+                            <field name="requisition_line_ids" readonly="stage != 'new'">
                                 <tree editable="bottom">
-                                    <field name="product_id"/>
-                                    <field name="description"/>
-                                    <field name="quantity"/>
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="quantity" />
                                     <field name="onhand_qty" readonly="1"/>
                                 </tree>
                             </field>

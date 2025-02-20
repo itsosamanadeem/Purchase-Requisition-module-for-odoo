@@ -16,7 +16,7 @@ class PurchaseRequisition(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('purchase.requisition') or '/'
         return super(PurchaseRequisition, self).create(vals)
 
-    vendor_id = fields.Many2one('res.partner', string="Vendor", tracking=True, required=True)
+    vendor_id = fields.Many2one('res.partner', string="Prefered Vendor", tracking=True, required=True)
     employee_name = fields.Char(string="Employee Name", compute="_compute_employee_name", store=True, tracking=True)
     department_id = fields.Many2one('hr.department', string="Department", compute="_compute_department", store=True, tracking=True)
     requisition_date = fields.Datetime(string="Requisition Date", default=fields.Datetime.now, tracking=True)
@@ -25,30 +25,14 @@ class PurchaseRequisition(models.Model):
 
     stage = fields.Selection([
         ('new', 'New'),
-        ('waiting_approval', 'Waiting for Department Manager Approval'),
+        ('waiting_approval', 'Waiting for Approval'),
         ('approved', 'Approved'),
-        ('rfq_created', 'Request for quotation created'),
+        ('rfq_created', 'RFQ Created'),
     ], string="Stage", default='new', tracking=True)
 
     product_summary = fields.Char(string="Products", compute="_compute_product_summary", store=True, tracking=True)
     total_quantity = fields.Float(string="Total Quantity", compute="_compute_total_quantity", store=True, tracking=True)
     total_onhand_qty = fields.Float(string="Total On-hand Qty", compute="_compute_total_onhand_qty", store=True, tracking=True)
-
-    # rfq_id = fields.Many2one('purchase.order', string="Related RFQ", track_visibility='always')
-    def action_open_rfq(self):
-        self.ensure_one()
-        if not self.rfq_id:
-            return
-        raise UserError(f"this is the rfq id: {self.rfq_id}")
-        _logger.info(f"this is the rfq id: {self.rfq_id}")            
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'name': 'Request for Quotation',
-        #     'view_mode': 'form',
-        #     'res_model': 'purchase.order',
-        #     'res_id': self.rfq_id.id,  # Opens the specific RFQ
-        #     'target': 'current',
-        # }
 
     @api.depends('create_uid')
     def _compute_employee_name(self):
