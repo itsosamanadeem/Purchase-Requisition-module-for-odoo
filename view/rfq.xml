@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherit_purchase_order_form_view" model="ir.ui.view">
+            <field name="name">inherit.purchase.order.form.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+                <field name="arch" type="xml">   
+                    <xpath expr="//field[@name='partner_id']" position="before">
+                        <field name="pr_reference" readonly="1" invisible="1"/>
+                    </xpath>
+                </field>
+        </record>
+    </data>
+</odoo>

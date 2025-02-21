@@ -8,7 +8,8 @@
     'data': [
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
-        'view/purchase_requisition.xml'
+        'view/purchase_requisition.xml',
+        'view/rfq.xml'
     ],
     'demo': [],
     'installable': True,

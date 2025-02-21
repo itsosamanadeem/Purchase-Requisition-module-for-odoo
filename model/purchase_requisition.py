@@ -3,6 +3,12 @@ from odoo.exceptions import UserError, AccessError
 import logging
 _logger = logging.getLogger(__name__)
 
+class RFQ(models.Model):
+    _inherit="purchase.order"
+
+    pr_reference=fields.Char('PR Reference')
+
+
 class PurchaseRequisition(models.Model):
     _name = "purchase.requisition"
     _description = "Purchase Requisition"
@@ -79,6 +85,7 @@ class PurchaseRequisition(models.Model):
 
         purchase_order = self.env['purchase.order'].create({
             'partner_id': self.vendor_id.id,
+            'pr_reference': self.name,
             'order_line': [(0, 0, {
                 'product_id': line.product_id.id,
                 'name': line.description,
@@ -90,6 +97,24 @@ class PurchaseRequisition(models.Model):
         
         self.message_post(body="Request for Quotation (RFQ) created successfully.")
         self.write({'stage': 'rfq_created'})
+
+    
+
+    def action_open_rfq(self):
+        self.ensure_one()
+        rfqs = self.env['purchase.order'].search([('pr_reference', '=', self.name)])
+
+        if not rfqs:
+            raise UserError(_("No RFQ found for this Purchase Requisition."))
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Request for Quotation',
+            'res_model': 'purchase.order',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', rfqs.ids)],
+            'context': {'create': False},
+        }
 
 class PurchaseRequisitionLine(models.Model):
     _name = "purchase.requisition.line"

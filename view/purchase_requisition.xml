@@ -23,6 +23,7 @@
         <field name="model">purchase.requisition</field>
         <field name="arch" type="xml">
             <form string="Purchase Requisition">
+                
                 <header>
                     <field name="stage" widget="statusbar"></field>
                     <button string="Confirm" name="action_submit" type="object" class="oe_highlight"/>
@@ -43,6 +44,14 @@
                             <field name="requisition_deadline"/>
                         </group>
                     </group>
+                    <div name="button_box" invisible="stage != 'rfq_created'">
+                        <button class="oe_stat_button" 
+                                type="object" 
+                                icon="fa-copy"                         
+                                name="action_open_rfq">
+                            <span>Open RFQ</span>
+                        </button>
+                    </div>
                     <notebook>
                         <page string="Requisition Line">
                             <field name="requisition_line_ids" readonly="stage != 'new'">
@@ -83,7 +92,7 @@
     <!-- New Menu Item Under 'Purchase Orders' in Purchase Module -->
     <menuitem id="menu_purchase_requisition"
               name="Purchase Requisitions"
-              parent="purchase.menu_purchase_root"
+              parent="purchase.menu_procurement_management"
               action="action_purchase_requisition"
-              sequence="15"/>
+              sequence="1"/>
 </odoo>
